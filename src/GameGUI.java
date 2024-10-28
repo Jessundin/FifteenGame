@@ -37,7 +37,5 @@ public class GameGUI extends JFrame {
 
         pack();
         this.setVisible(true);
-
-
     }
 }
