@@ -9,6 +9,7 @@ public class GameGUI extends JFrame implements ActionListener
     JPanel panel = new JPanel(new BorderLayout());
     JPanel centerPanel = new JPanel(new GridLayout(4, 4));
     JButton[] buttons = new JButton[15];
+    JButton emptyButton = new JButton();
     JPanel eastPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     JPanel westPanel = new JPanel(new FlowLayout());
     JButton newGameButton = new JButton("New Game");
@@ -39,7 +40,7 @@ public class GameGUI extends JFrame implements ActionListener
             buttons[i].setFocusable(Boolean.FALSE);
             centerPanel.add(buttons[i], BorderLayout.CENTER);
         }
-        centerPanel.add(new JButton());
+        centerPanel.add(emptyButton);
 
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
@@ -57,14 +58,14 @@ public class GameGUI extends JFrame implements ActionListener
         }
         if(e.getSource() == cheatButton){
             centerPanel.removeAll();
-            otherButtons.solve(buttons,centerPanel);
+            otherButtons.solve(buttons,emptyButton,centerPanel);
             revalidate();
             repaint();
         }
         if(e.getSource() == newGameButton){
             centerPanel.removeAll();
-            otherButtons.newGame(buttons);
-            for (JButton button : otherButtons.newGame(buttons))
+            otherButtons.newGame(buttons,emptyButton);
+            for (JButton button : otherButtons.newGame(buttons,emptyButton))
             {
                 centerPanel.add(button);
             }
