@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 public class GameGUI extends JFrame implements ActionListener
 {
-
     JPanel panel = new JPanel(new BorderLayout());
     JPanel centerPanel = new JPanel(new GridLayout(4, 4));
     JButton[] buttons = new JButton[15];
@@ -19,7 +18,6 @@ public class GameGUI extends JFrame implements ActionListener
 
     public GameGUI()
     {
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("15 Puzzle Game");
 //        this.setResizable(false);
@@ -34,14 +32,7 @@ public class GameGUI extends JFrame implements ActionListener
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
-        for (int i = 0; i < buttons.length; i++)
-        {
-            buttons[i] = new JButton(String.valueOf(i + 1));
-            buttons[i].setFocusable(Boolean.FALSE);
-            centerPanel.add(buttons[i], BorderLayout.CENTER);
-        }
-
-        centerPanel.add(emptyButton);
+        otherButtons.solve(buttons,emptyButton,centerPanel);
 
         for (JButton button : otherButtons.newGame(buttons,emptyButton))
         {
@@ -75,6 +66,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 centerPanel.add(button);
             }
+
             revalidate();
             repaint();
         }

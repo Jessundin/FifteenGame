@@ -15,6 +15,7 @@ public class OtherButtons
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton(String.valueOf(i + 1));
             buttons[i].setFocusable(Boolean.FALSE);
+            emptyButton.setFocusable(Boolean.FALSE);
             centerPanel.add(buttons[i], BorderLayout.CENTER);
             centerPanel.add(emptyButton, BorderLayout.CENTER);
         }
