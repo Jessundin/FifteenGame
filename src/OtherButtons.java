@@ -10,6 +10,7 @@ public class OtherButtons
     public void exitButton(){
         System.exit(0);
     }
+
     public void solve(JButton[] buttons,JButton emptyButton, JPanel centerPanel)
     {
         for (int i = 0; i < buttons.length; i++) {
@@ -19,6 +20,7 @@ public class OtherButtons
             centerPanel.add(emptyButton, BorderLayout.CENTER);
         }
     }
+
     public JButton[] newGame(JButton[] buttons, JButton emptyButton)
     {
         List<JButton> newButtonList = new ArrayList<>();

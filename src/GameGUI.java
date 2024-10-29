@@ -34,13 +34,11 @@ public class GameGUI extends JFrame implements ActionListener
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
-        for (int i = 0; i < buttons.length; i++)
+        otherButtons.solve(buttons,emptyButton,centerPanel);
+        for (JButton button : otherButtons.newGame(buttons,emptyButton))
         {
-            buttons[i] = new JButton(String.valueOf(i + 1));
-            buttons[i].setFocusable(Boolean.FALSE);
-            centerPanel.add(buttons[i], BorderLayout.CENTER);
+            centerPanel.add(button);
         }
-        centerPanel.add(emptyButton);
 
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
