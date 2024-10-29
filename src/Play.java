@@ -1,6 +1,6 @@
-public class Game {
+public class Play {
     public static void main(String[] args) {
-        new GameGUI();
+        new PuzzleGameFrame();
     }
 
 }
