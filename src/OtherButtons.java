@@ -17,4 +17,10 @@ public class OtherButtons
             centerPanel.add(buttons[i], BorderLayout.CENTER);
         }
     }
+    public JButton[] newGame(JButton[] buttons)
+    {
+        List<JButton> buttonList = Arrays.asList(buttons);
+        Collections.shuffle(buttonList);
+        return buttonList.toArray(new JButton[buttonList.size()]) ;
+    }
 }
