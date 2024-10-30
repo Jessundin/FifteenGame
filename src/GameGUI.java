@@ -14,6 +14,7 @@ public class GameGUI extends JFrame implements ActionListener {
     JButton exitButton = new JButton("Exit");
     JButton cheatButton = new JButton("Cheat");
     OtherButtons otherButtons = new OtherButtons();
+    int emptyIndex = 15;
 
     public GameGUI() {
 
@@ -36,9 +37,9 @@ public class GameGUI extends JFrame implements ActionListener {
             } else {
                 buttons[i] = new JButton(String.valueOf(i + 1));
             }
-                buttons[i].setFocusable(Boolean.FALSE);
-                centerPanel.add(buttons[i], BorderLayout.CENTER);
-                buttons[i].addActionListener(this);
+            buttons[i].setFocusable(Boolean.FALSE);
+            centerPanel.add(buttons[i], BorderLayout.CENTER);
+            buttons[i].addActionListener(this);
         }
 
         newGameButton.addActionListener(this);
@@ -68,6 +69,28 @@ public class GameGUI extends JFrame implements ActionListener {
             }
             revalidate();
             repaint();
+        } else {
+            for (int i = 0; i < buttons.length; i++) {
+                if (e.getSource() == buttons[i]) {
+                    moveButton(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean buttonCanMove(int index) {
+        return (index == emptyIndex - 1 && index % 4 != 3) ||
+               (index == emptyIndex + 1 && index % 4 != 0) ||
+               (index == emptyIndex - 4) || (index == emptyIndex + 4);
+    }
+
+    private void moveButton(int index) {
+        if (buttonCanMove(index)) {
+            String temp = buttons[index].getText();
+            buttons[index].setText(buttons[emptyIndex].getText());
+            buttons[emptyIndex].setText(temp);
+            emptyIndex = index;
         }
     }
 }

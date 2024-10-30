@@ -8,11 +8,11 @@ public class OtherButtons {
 
     private GameGUI gameGUI;
 
-    public void exitButton(){
+    public void exitButton() {
         System.exit(0);
     }
-    public void solve(JButton[] buttons, JPanel centerPanel)
-    {
+
+    public void solve(JButton[] buttons, JPanel centerPanel) {
         for (int i = 0; i < buttons.length; i++) {
             if (i == 15) {
                 buttons[i] = new JButton("");
@@ -23,10 +23,10 @@ public class OtherButtons {
             centerPanel.add(buttons[i], BorderLayout.CENTER);
         }
     }
-    public JButton[] newGame(JButton[] buttons)
-    {
+
+    public JButton[] newGame(JButton[] buttons) {
         List<JButton> buttonList = Arrays.asList(buttons);
         Collections.shuffle(buttonList);
-        return buttonList.toArray(new JButton[buttonList.size()]) ;
+        return buttonList.toArray(new JButton[buttonList.size()]);
     }
 }
