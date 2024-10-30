@@ -31,15 +31,23 @@ public class GameGUI extends JFrame implements ActionListener {
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
-        for (int i = 0; i < buttons.length; i++) {
-            if (i == 15) {
+        for (int i = 0; i < buttons.length; i++)
+        {
+            if (i == 15)
+            {
                 buttons[i] = new JButton("");
-            } else {
+            } else
+            {
                 buttons[i] = new JButton(String.valueOf(i + 1));
             }
             buttons[i].setFocusable(Boolean.FALSE);
             centerPanel.add(buttons[i], BorderLayout.CENTER);
             buttons[i].addActionListener(this);
+        }
+
+        for (JButton button : otherButtons.newGame(buttons))
+        {
+            centerPanel.add(button);
         }
 
         newGameButton.addActionListener(this);
@@ -67,6 +75,7 @@ public class GameGUI extends JFrame implements ActionListener {
             for (JButton button : otherButtons.newGame(buttons)) {
                 centerPanel.add(button);
             }
+
             revalidate();
             repaint();
         } else {
