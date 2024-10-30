@@ -42,6 +42,11 @@ public class GameGUI extends JFrame implements ActionListener {
             buttons[i].addActionListener(this);
         }
 
+        for (JButton button : otherButtons.newGame(buttons))
+        {
+            centerPanel.add(button);
+        }
+
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
         cheatButton.addActionListener(this);
