@@ -31,23 +31,11 @@ public class GameGUI extends JFrame implements ActionListener {
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
-        for (int i = 0; i < buttons.length; i++)
-        {
-            if (i == 15)
-            {
-                buttons[i] = new JButton("");
-            } else
-            {
-                buttons[i] = new JButton(String.valueOf(i + 1));
-            }
-            buttons[i].setFocusable(Boolean.FALSE);
-            centerPanel.add(buttons[i], BorderLayout.CENTER);
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new JButton(i == 15 ? "" : String.valueOf(i + 1));
+            buttons[i].setFocusable(false);
+            centerPanel.add(buttons[i]);
             buttons[i].addActionListener(this);
-        }
-
-        for (JButton button : otherButtons.newGame(buttons))
-        {
-            centerPanel.add(button);
         }
 
         newGameButton.addActionListener(this);
@@ -70,14 +58,7 @@ public class GameGUI extends JFrame implements ActionListener {
             repaint();
         }
         if (e.getSource() == newGameButton) {
-            centerPanel.removeAll();
-            otherButtons.newGame(buttons);
-            for (JButton button : otherButtons.newGame(buttons)) {
-                centerPanel.add(button);
-            }
-
-            revalidate();
-            repaint();
+            resetGame();
         } else {
             for (int i = 0; i < buttons.length; i++) {
                 if (e.getSource() == buttons[i]) {
@@ -86,6 +67,15 @@ public class GameGUI extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    private void resetGame() {
+        centerPanel.removeAll();
+        for (JButton button : otherButtons.newGame(buttons)) {
+            centerPanel.add(button);
+        }
+        revalidate();
+        repaint();
     }
 
     private boolean buttonCanMove(int index) {
