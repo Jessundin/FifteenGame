@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GameGUI extends JFrame implements ActionListener {
 
@@ -12,7 +15,7 @@ public class GameGUI extends JFrame implements ActionListener {
     JPanel westPanel = new JPanel(new FlowLayout());
     JButton newGameButton = new JButton("New Game");
     JButton exitButton = new JButton("Exit");
-    JButton cheatButton = new JButton("Cheat");
+    JButton solveButton = new JButton("Solve");
     OtherButtons otherButtons = new OtherButtons();
     int emptyIndex = 15;
 
@@ -27,33 +30,22 @@ public class GameGUI extends JFrame implements ActionListener {
         panel.add(eastPanel, BorderLayout.EAST);
         panel.add(westPanel, BorderLayout.WEST);
 
-        westPanel.add(cheatButton);
+        westPanel.add(solveButton);
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
-        for (int i = 0; i < buttons.length; i++)
-        {
-            if (i == 15)
-            {
-                buttons[i] = new JButton("");
-            } else
-            {
-                buttons[i] = new JButton(String.valueOf(i + 1));
-            }
-            buttons[i].setFocusable(Boolean.FALSE);
-            centerPanel.add(buttons[i], BorderLayout.CENTER);
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new JButton(i == 15 ? "" : String.valueOf(i + 1));
+            buttons[i].setFocusable(false);
+            centerPanel.add(buttons[i]);
             buttons[i].addActionListener(this);
-        }
-
-        for (JButton button : otherButtons.newGame(buttons))
-        {
-            centerPanel.add(button);
         }
 
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
-        cheatButton.addActionListener(this);
+        solveButton.addActionListener(this);
 
+        shuffleButtons();
         pack();
         this.setVisible(true);
     }
@@ -63,27 +55,49 @@ public class GameGUI extends JFrame implements ActionListener {
         if (e.getSource() == exitButton) {
             otherButtons.exitButton();
         }
-        if (e.getSource() == cheatButton) {
+        if (e.getSource() == solveButton) {
             centerPanel.removeAll();
             otherButtons.solve(buttons, centerPanel);
             revalidate();
             repaint();
         }
         if (e.getSource() == newGameButton) {
-            centerPanel.removeAll();
-            otherButtons.newGame(buttons);
-            for (JButton button : otherButtons.newGame(buttons)) {
-                centerPanel.add(button);
-            }
-
-            revalidate();
-            repaint();
+            resetGame();
         } else {
             for (int i = 0; i < buttons.length; i++) {
                 if (e.getSource() == buttons[i]) {
                     moveButton(i);
                     break;
                 }
+            }
+        }
+    }
+
+    private void resetGame() {
+        centerPanel.removeAll();
+        shuffleButtons();
+        for (JButton button : buttons) {
+            centerPanel.add(button);
+        }
+        revalidate();
+        repaint();
+    }
+
+    private void shuffleButtons() {
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 1; i < 16; i++) {
+            numbers.add(i);
+        }
+        numbers.add(null);
+
+        Collections.shuffle(numbers);
+
+        for (int i = 0; i < buttons.length; i++) {
+            if (numbers.get(i) == null) {
+                buttons[i].setText("");
+                emptyIndex = i;
+            } else {
+                buttons[i].setText(String.valueOf(numbers.get(i)));
             }
         }
     }

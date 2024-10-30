@@ -6,8 +6,6 @@ import java.util.List;
 
 public class OtherButtons {
 
-    private GameGUI gameGUI;
-
     public void exitButton() {
         System.exit(0);
     }
