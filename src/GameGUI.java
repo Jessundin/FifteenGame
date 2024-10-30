@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GameGUI extends JFrame implements ActionListener {
 
@@ -12,7 +15,7 @@ public class GameGUI extends JFrame implements ActionListener {
     JPanel westPanel = new JPanel(new FlowLayout());
     JButton newGameButton = new JButton("New Game");
     JButton exitButton = new JButton("Exit");
-    JButton cheatButton = new JButton("Cheat");
+    JButton solveButton = new JButton("Solve");
     OtherButtons otherButtons = new OtherButtons();
     int emptyIndex = 15;
 
@@ -27,7 +30,7 @@ public class GameGUI extends JFrame implements ActionListener {
         panel.add(eastPanel, BorderLayout.EAST);
         panel.add(westPanel, BorderLayout.WEST);
 
-        westPanel.add(cheatButton);
+        westPanel.add(solveButton);
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
@@ -40,8 +43,9 @@ public class GameGUI extends JFrame implements ActionListener {
 
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
-        cheatButton.addActionListener(this);
+        solveButton.addActionListener(this);
 
+        shuffleButtons();
         pack();
         this.setVisible(true);
     }
@@ -51,7 +55,7 @@ public class GameGUI extends JFrame implements ActionListener {
         if (e.getSource() == exitButton) {
             otherButtons.exitButton();
         }
-        if (e.getSource() == cheatButton) {
+        if (e.getSource() == solveButton) {
             centerPanel.removeAll();
             otherButtons.solve(buttons, centerPanel);
             revalidate();
@@ -71,11 +75,31 @@ public class GameGUI extends JFrame implements ActionListener {
 
     private void resetGame() {
         centerPanel.removeAll();
-        for (JButton button : otherButtons.newGame(buttons)) {
+        shuffleButtons();
+        for (JButton button : buttons) {
             centerPanel.add(button);
         }
         revalidate();
         repaint();
+    }
+
+    private void shuffleButtons() {
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 1; i < 16; i++) {
+            numbers.add(i);
+        }
+        numbers.add(null);
+
+        Collections.shuffle(numbers);
+
+        for (int i = 0; i < buttons.length; i++) {
+            if (numbers.get(i) == null) {
+                buttons[i].setText("");
+                emptyIndex = i;
+            } else {
+                buttons[i].setText(String.valueOf(numbers.get(i)));
+            }
+        }
     }
 
     private boolean buttonCanMove(int index) {
