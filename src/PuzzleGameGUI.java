@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class PuzzleGameGUI extends JFrame implements ActionListener {
 
@@ -18,14 +15,18 @@ public class PuzzleGameGUI extends JFrame implements ActionListener {
     JButton exitGameButton = new JButton("Exit");
     JButton solvePuzzleButton = new JButton("Solve");
 
-    OtherButtons otherButtons = new OtherButtons();
-    int emptyButtonIndex = 15;
+    PuzzleGameManager puzzleManager;
 
     public PuzzleGameGUI() {
+        puzzleManager = new PuzzleGameManager(puzzleButtons);
+        setupUI();
+        resetPuzzle();
+    }
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("15 Puzzle Game");
-        this.setLocationRelativeTo(null);
+    private void setupUI() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("15 Puzzle Game");
+        setLocationRelativeTo(null);
 
         add(mainPanel);
         mainPanel.add(gridPanel, BorderLayout.CENTER);
@@ -39,113 +40,44 @@ public class PuzzleGameGUI extends JFrame implements ActionListener {
         for (int i = 0; i < puzzleButtons.length; i++) {
             puzzleButtons[i] = new JButton(i == 15 ? "" : String.valueOf(i + 1));
             puzzleButtons[i].setFocusable(false);
-            gridPanel.add(puzzleButtons[i]);
             puzzleButtons[i].addActionListener(this);
+            gridPanel.add(puzzleButtons[i]);
         }
 
         startNewGameButton.addActionListener(this);
         exitGameButton.addActionListener(this);
         solvePuzzleButton.addActionListener(this);
 
-        shufflePuzzle();
-
         pack();
         this.setVisible(true);
+    }
+
+    private void resetPuzzle() {
+        puzzleManager.shufflePuzzle();
+        for (JButton button : puzzleButtons) {
+            gridPanel.add(button);
+        }
+        revalidate();
+        repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exitGameButton) {
-            otherButtons.exitButton();
+            puzzleManager.exitGame();
         }
         if (e.getSource() == solvePuzzleButton) {
-            solvePuzzle();
+            puzzleManager.solvePuzzle();
         }
         if (e.getSource() == startNewGameButton) {
             resetPuzzle();
         } else {
             for (int i = 0; i < puzzleButtons.length; i++) {
                 if (e.getSource() == puzzleButtons[i]) {
-                    moveButton(i);
+                    puzzleManager.moveButton(i);
                     break;
                 }
             }
         }
-    }
-
-    private void resetPuzzle() {
-        gridPanel.removeAll();
-        shufflePuzzle();
-
-        for (JButton button : puzzleButtons) {
-            gridPanel.add(button);
-        }
-
-        revalidate();
-        repaint();
-    }
-
-    private void shufflePuzzle() {
-        List<Integer> numbers = new ArrayList<>();
-        for (int i = 1; i < 16; i++) {
-            numbers.add(i);
-        }
-        numbers.add(null);
-
-        Collections.shuffle(numbers);
-
-        for (int i = 0; i < puzzleButtons.length; i++) {
-            if (numbers.get(i) == null) {
-                puzzleButtons[i].setText("");
-                emptyButtonIndex = i;
-            } else {
-                puzzleButtons[i].setText(String.valueOf(numbers.get(i)));
-            }
-        }
-    }
-
-    private boolean buttonCanMove(int index) {
-        return (index == emptyButtonIndex - 1 && index % 4 != 3) ||
-               (index == emptyButtonIndex + 1 && index % 4 != 0) ||
-               (index == emptyButtonIndex - 4) ||
-               (index == emptyButtonIndex + 4);
-    }
-
-    private void moveButton(int index) {
-        if (buttonCanMove(index)) {
-            String temp = puzzleButtons[index].getText();
-            puzzleButtons[index].setText(puzzleButtons[emptyButtonIndex].getText());
-            puzzleButtons[emptyButtonIndex].setText(temp);
-            emptyButtonIndex = index;
-            checkIfSolved();
-        }
-    }
-
-    public void checkIfSolved()
-    {
-        int counter = 0;
-        for (int i = 0; i < puzzleButtons.length; i++)
-        {
-            if (puzzleButtons[i].getText().equals(String.valueOf(i + 1)))
-            {
-                counter++;
-                if (counter == 15)
-                {
-                    JOptionPane.showMessageDialog(null, "Grattis, du har vunnit!");
-                    moveButton(i);
-                }
-            }
-        }
-    }
-
-    private void solvePuzzle() {
-        for (int i = 0; i < puzzleButtons.length; i++) {
-            if (i < 15) {
-                puzzleButtons[i].setText(String.valueOf(i + 1));
-            } else {
-                puzzleButtons[i].setText("");
-            }
-        }
-        emptyButtonIndex = 15;
     }
 }
