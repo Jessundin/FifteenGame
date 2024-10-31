@@ -60,6 +60,7 @@ public class GameGUI extends JFrame implements ActionListener {
             otherButtons.solve(buttons, centerPanel);
             revalidate();
             repaint();
+            checkIfSolved();
         }
         if (e.getSource() == newGameButton) {
             resetGame();
@@ -114,6 +115,22 @@ public class GameGUI extends JFrame implements ActionListener {
             buttons[index].setText(buttons[emptyIndex].getText());
             buttons[emptyIndex].setText(temp);
             emptyIndex = index;
+        }
+    }
+    public void checkIfSolved()
+    {
+        int counter = 0;
+        for (int i = 0; i < buttons.length; i++)
+        {
+            if (buttons[i].getText().equals(String.valueOf(i + 1)))
+            {
+                counter++;
+                if (counter == 15)
+                {
+                    JOptionPane.showMessageDialog(null, "Grattis, du har vunnit!");
+                    moveButton(i);
+                }
+            }
         }
     }
 }
