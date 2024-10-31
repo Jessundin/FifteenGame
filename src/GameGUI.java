@@ -12,7 +12,7 @@ public class GameGUI extends JFrame implements ActionListener {
     JPanel westPanel = new JPanel(new FlowLayout());
     JButton newGameButton = new JButton("New Game");
     JButton exitButton = new JButton("Exit");
-    JButton cheatButton = new JButton("Cheat");
+    JButton solveButton = new JButton("Solve");
     OtherButtons otherButtons = new OtherButtons();
     int emptyIndex = 15;
 
@@ -27,7 +27,7 @@ public class GameGUI extends JFrame implements ActionListener {
         panel.add(eastPanel, BorderLayout.EAST);
         panel.add(westPanel, BorderLayout.WEST);
 
-        westPanel.add(cheatButton);
+        westPanel.add(solveButton);
         eastPanel.add(newGameButton);
         eastPanel.add(exitButton);
 
@@ -52,7 +52,7 @@ public class GameGUI extends JFrame implements ActionListener {
 
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
-        cheatButton.addActionListener(this);
+        solveButton.addActionListener(this);
 
         pack();
         this.setVisible(true);
@@ -63,7 +63,7 @@ public class GameGUI extends JFrame implements ActionListener {
         if (e.getSource() == exitButton) {
             otherButtons.exitButton();
         }
-        if (e.getSource() == cheatButton) {
+        if (e.getSource() == solveButton) {
             centerPanel.removeAll();
             otherButtons.solve(buttons, centerPanel);
             revalidate();
