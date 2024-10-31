@@ -56,11 +56,7 @@ public class GameGUI extends JFrame implements ActionListener {
             otherButtons.exitButton();
         }
         if (e.getSource() == solveButton) {
-            centerPanel.removeAll();
-            otherButtons.solve(buttons, centerPanel);
-            revalidate();
-            repaint();
-            checkIfSolved();
+            solvePuzzle();
         }
         if (e.getSource() == newGameButton) {
             resetGame();
@@ -115,6 +111,7 @@ public class GameGUI extends JFrame implements ActionListener {
             buttons[index].setText(buttons[emptyIndex].getText());
             buttons[emptyIndex].setText(temp);
             emptyIndex = index;
+            checkIfSolved();
         }
     }
     public void checkIfSolved()
