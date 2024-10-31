@@ -69,7 +69,6 @@ public class PuzzleGameManager {
                 counter++;
                 if (counter == 15) {
                     JOptionPane.showMessageDialog(null, "Grattis, du har vunnit!");
-                    moveButton(i);
                 }
             }
         }
