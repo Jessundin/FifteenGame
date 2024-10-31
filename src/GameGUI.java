@@ -133,4 +133,14 @@ public class GameGUI extends JFrame implements ActionListener {
             }
         }
     }
+    private void solvePuzzle() {
+        for (int i = 0; i < buttons.length; i++) {
+            if (i < 15) {
+                buttons[i].setText(String.valueOf(i + 1));
+            } else {
+                buttons[i].setText("");
+            }
+        }
+        emptyIndex = 15;
+    }
 }
