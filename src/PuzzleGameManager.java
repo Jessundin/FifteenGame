@@ -56,10 +56,15 @@ public class PuzzleGameManager {
     }
 
     public boolean buttonCanMove(int index) {
-        return (index == emptyButtonIndex - 1 && index % 4 != 3) ||
-               (index == emptyButtonIndex + 1 && index % 4 != 0) ||
-               (index == emptyButtonIndex - 4) ||
-               (index == emptyButtonIndex + 4);
+        boolean firstColumn = (index == 0 || index == 4 || index == 8 || index == 12);
+        boolean lastColumn = (index == 3 || index == 7 || index == 11 || index == 15);
+
+        boolean moveLeft = (index == emptyButtonIndex - 1) && !lastColumn;
+        boolean moveRight = (index == emptyButtonIndex + 1) && !firstColumn;
+        boolean moveUp = index == emptyButtonIndex - 4;
+        boolean moveDown = index == emptyButtonIndex + 4;
+
+        return moveLeft || moveRight || moveUp || moveDown;
     }
 
     public void checkIfSolved() {
